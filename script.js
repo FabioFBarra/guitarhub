@@ -230,27 +230,45 @@ function updateMetronomeUI() {
 
 // --- TUNER LOGIC ---
 async function startTuner() {
-    if (isMetronomePlaying) stopMetronome();
-    setupAudioContext();
-    if (audioContext.state === 'suspended') await audioContext.resume();
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        vuMeterContainer.classList.remove('hidden');
-        mediaStreamSource = audioContext.createMediaStreamSource(stream);
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 4096;
-        buffer = new Float32Array(analyser.fftSize);
-        volumeDataArray = new Uint8Array(analyser.frequencyBinCount);
-        mediaStreamSource.connect(analyser);
-        isTunerActive = true;
-        startButton.textContent = 'Parar Afinador';
-        statusMessage.textContent = 'Afinador ativo. Toque uma corda.';
-        updatePitch();
-        await requestWakeLock();
+        // Verifica o status da permissão antes de tentar iniciar
+        const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+
+        if (permissionStatus.state === 'granted') {
+            await activateTuner();
+        } else if (permissionStatus.state === 'prompt') {
+            // Solicita a permissão e então ativa se concedida
+            await navigator.mediaDevices.getUserMedia({ audio: true });
+            await activateTuner();
+        } else {
+            // Permissão foi negada
+            openPermissionModal();
+            statusMessage.textContent = 'Acesso ao microfone negado. Siga as instruções.';
+        }
     } catch (err) {
+        // Ocorre se o usuário negar a permissão no prompt
         openPermissionModal();
         statusMessage.textContent = 'Acesso ao microfone negado. Siga as instruções.';
     }
+}
+
+async function activateTuner() {
+    if (isMetronomePlaying) stopMetronome();
+    setupAudioContext();
+    if (audioContext.state === 'suspended') await audioContext.resume();
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    vuMeterContainer.classList.remove('hidden');
+    mediaStreamSource = audioContext.createMediaStreamSource(stream);
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 4096;
+    buffer = new Float32Array(analyser.fftSize);
+    volumeDataArray = new Uint8Array(analyser.frequencyBinCount);
+    mediaStreamSource.connect(analyser);
+    isTunerActive = true;
+    startButton.textContent = 'Parar Afinador';
+    statusMessage.textContent = 'Afinador ativo. Toque uma corda.';
+    updatePitch();
+    await requestWakeLock();
 }
 function stopTuner() {
     if (mediaStreamSource) {

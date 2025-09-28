@@ -192,7 +192,8 @@ body {
         overflow-x: hidden; /* Remove scroll horizontal no mobile */
     }
     #fretboard-container {
-        overflow-y: auto; /* Permite rolar a área do braço se for muito alta */
+        display: flex;
+        flex-direction: column;
     }
 }
  /* Em telas grandes, mostra apenas o primeiro braço (que conterá todas as casas) */

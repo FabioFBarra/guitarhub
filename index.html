@@ -124,34 +124,36 @@
     </div>
 
     <!-- Scale Visualizer Fullscreen View -->
-    <div id="scale-visualizer-view" class="hidden fixed inset-0 bg-gray-900 z-50 p-4 flex flex-col items-center justify-center">
+    <div id="scale-visualizer-view" class="hidden fixed inset-0 bg-gray-900 z-50 p-4 flex flex-col items-center">
         <div class="w-full max-w-7xl mx-auto text-center h-full flex flex-col">
             <div class="flex items-center justify-between mb-4 flex-shrink-0">
                 <h2 class="text-2xl font-bold">Sala de Estudo</h2>
                 <button id="back-to-tuner-btn" class="secondary-btn text-white font-bold py-2 px-4 rounded-lg">Voltar</button>
             </div>
             
-            <div id="fretboard-container" class="w-full flex-grow flex flex-col space-y-4 md:space-y-0">
-                <!-- Wrapper principal que controla a visualização -->
-                <div id="fretboard-wrapper-1" class="fretboard-wrapper w-full">
-                    <div id="fret-numbers-1" class="fret-numbers"></div>
-                    <div id="fretboard-1" class="fretboard"></div>
+            <!-- NEW: Scrollable content area -->
+            <div class="flex-grow overflow-y-auto min-h-0 pb-4">
+                <div id="fretboard-container" class="w-full flex flex-col space-y-4 md:space-y-0">
+                    <!-- Wrapper principal que controla a visualização -->
+                    <div id="fretboard-wrapper-1" class="fretboard-wrapper w-full">
+                        <div id="fret-numbers-1" class="fret-numbers"></div>
+                        <div id="fretboard-1" class="fretboard"></div>
+                    </div>
+                    <!-- Esta segunda parte só será visível em telas pequenas -->
+                    <div id="fretboard-wrapper-2" class="fretboard-wrapper w-full">
+                        <div id="fret-numbers-2" class="fret-numbers"></div>
+                        <div id="fretboard-2" class="fretboard"></div>
+                    </div>
                 </div>
-                <!-- Esta segunda parte só será visível em telas pequenas -->
-                <div id="fretboard-wrapper-2" class="fretboard-wrapper w-full">
-                    <div id="fret-numbers-2" class="fret-numbers"></div>
-                    <div id="fretboard-2" class="fretboard"></div>
+                
+                <!-- Área para exibir os diagramas de acordes gerados -->
+                <div id="chord-progression-display-area" class="mt-4 p-4 rounded-xl glass-panel hidden">
+                    <div id="chord-diagrams-output" class="text-center"></div>
                 </div>
-            </div>
-            
-            <!-- Área para exibir os diagramas de acordes gerados -->
-            <div id="chord-progression-display-area" class="mt-4 p-4 rounded-xl glass-panel hidden">
-                <div id="chord-diagrams-output" class="text-center"></div>
-            </div>
 
-            <div id="practice-controls-panel" class="glass-panel p-4 rounded-xl mt-4 flex-shrink-0">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Left Side: Scale & Display Controls -->
+                <div id="practice-controls-panel" class="glass-panel p-4 rounded-xl flex-shrink-0 mt-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Left Side: Scale & Display Controls -->
                     <div class="w-full">
                          <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Configuração da Escala</h3>
                          <div class="flex items-center gap-2">
@@ -166,44 +168,45 @@
                                 </svg>
                             </button>
                          </div>
-                    </div>
+                        </div>
 
-                    <!-- Center: Chord Progression Generator -->
-                    <div class="w-full md:border-l md:border-r md:border-slate-700 md:px-6">
-                        <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Gerador de Acordes</h3>
-                        <p class="text-sm text-slate-400 mb-2 text-center md:text-left">Cria uma progressão musical para praticar.</p>
-                        <button id="generate-progression" class="primary-btn text-white font-bold py-2 px-4 rounded-lg w-full">Gerar Progressão</button>
-                    </div>
+                        <!-- Center: Chord Progression Generator -->
+                        <div class="w-full md:border-l md:border-r md:border-slate-700 md:px-6">
+                            <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Gerador de Acordes</h3>
+                            <p class="text-sm text-slate-400 mb-2 text-center md:text-left">Cria uma progressão musical para praticar.</p>
+                            <button id="generate-progression" class="primary-btn text-white font-bold py-2 px-4 rounded-lg w-full">Gerar Progressão</button>
+                        </div>
 
-                    <!-- Right Side: Metronome Controls -->
-                    <div class="w-full">
-                        <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Metrônomo de Prática</h3>
-                        <div class="flex flex-col gap-3">
-                            <div class="flex items-center gap-4">
-                                <button class="start-metronome-btn primary-btn text-white font-bold py-2 px-4 rounded-lg flex-shrink-0">Tocar</button>
-                                <div class="metronome-indicator"></div>
-                                <div class="flex-grow text-center">
-                                    <span id="bpm-display-practice" class="bpm-display font-bold">120 BPM</span>
+                        <!-- Right Side: Metronome Controls -->
+                        <div class="w-full">
+                            <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Metrônomo de Prática</h3>
+                            <div class="flex flex-col gap-3">
+                                <div class="flex items-center gap-4">
+                                    <button class="start-metronome-btn primary-btn text-white font-bold py-2 px-4 rounded-lg flex-shrink-0">Tocar</button>
+                                    <div class="metronome-indicator"></div>
+                                    <div class="flex-grow text-center">
+                                        <span id="bpm-display-practice" class="bpm-display font-bold">120 BPM</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <input type="range" id="bpm-slider-practice" class="bpm-slider w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" min="40" max="220" value="120" aria-label="Ajustar BPM do metrônomo de prática">
-                            <div class="flex items-center gap-2">
-                                <select id="time-signature-select-practice" class="time-signature-select select-input p-2 rounded-lg w-full" aria-label="Selecionar compasso do metrônomo de prática"><option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option><option value="6">6/8</option></select>
-                                <select id="backing-track-select-practice" class="backing-track-select select-input p-2 rounded-lg w-full" aria-label="Selecionar backing track de prática"><option value="none">Sem Backing Track</option><option value="rock">Rock Básico</option><option value="pop">Pop Simples</option></select>
+                                <input type="range" id="bpm-slider-practice" class="bpm-slider w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" min="40" max="220" value="120" aria-label="Ajustar BPM do metrônomo de prática">
+                                <div class="flex items-center gap-2">
+                                    <select id="time-signature-select-practice" class="time-signature-select select-input p-2 rounded-lg w-full" aria-label="Selecionar compasso do metrônomo de prática"><option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option><option value="6">6/8</option></select>
+                                    <select id="backing-track-select-practice" class="backing-track-select select-input p-2 rounded-lg w-full" aria-label="Selecionar backing track de prática"><option value="none">Sem Backing Track</option><option value="rock">Rock Básico</option><option value="pop">Pop Simples</option></select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="ad-placeholder h-16 w-full mt-4 flex items-center justify-center">
-                    <!-- Anúncio na Sala de Estudo - Substitua pelo seu código de anúncio -->
-                    <ins class="adsbygoogle"
-                         data-ad-client="ca-pub-0778132624866197"
-                         data-ad-slot="SEU_AD_SLOT_ID_AQUI"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                    <div class="ad-placeholder h-16 w-full mt-4 flex items-center justify-center md:col-span-3">
+                        <!-- Anúncio na Sala de Estudo - Substitua pelo seu código de anúncio -->
+                        <ins class="adsbygoogle"
+                             data-ad-client="ca-pub-0778132624866197"
+                             data-ad-slot="SEU_AD_SLOT_ID_AQUI"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
