@@ -6,207 +6,7 @@
     <title>Afinador de Violão Pro | Estilo & Precisão</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0f172a;
-            --bg-black: #000000;
-            --panel-bg: rgba(30, 41, 59, 0.5); /* slate-800 com 50% de opacidade */
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-amber: #f59e0b;
-            --accent-red: #ef4444;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-black) 100%);
-            color: var(--text-primary);
-        }
-
-        .glass-panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem; /* 24px */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .tuner-circle {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            background: radial-gradient(circle, #27334a, #111827);
-            box-shadow: 0 0 40px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.9);
-            transition: border-color 0.3s ease, width 0.3s ease, height 0.3s ease;
-        }
-        @media (min-width: 640px) {
-            .tuner-circle {
-                width: 300px;
-                height: 300px;
-            }
-        }
-        .tuner-pointer {
-            width: 4px;
-            height: 110px;
-            background-color: #f3f4f6;
-            position: absolute;
-            bottom: 50%;
-            left: calc(50% - 2px);
-            transform-origin: bottom center;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease-out;
-            border-radius: 2px 2px 0 0;
-            z-index: 10;
-            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
-        }
-         @media (min-width: 640px) {
-            .tuner-pointer {
-                height: 120px;
-            }
-        }
-        .tuner-pointer-pivot {
-            width: 20px;
-            height: 20px;
-            background-color: #f3f4f6;
-            border-radius: 50%;
-            position: absolute;
-            bottom: calc(50% - 10px);
-            left: calc(50% - 10px);
-            z-index: 11;
-        }
-        .tuner-markings {
-             position: absolute;
-             top: 40px;
-             width: calc(100% - 80px);
-             display: flex;
-             justify-content: space-between;
-             font-size: 14px;
-             color: var(--text-secondary);
-             font-weight: bold;
-        }
-        .border-in-tune { border-color: var(--accent-amber); }
-        .border-out-of-tune { border-color: var(--accent-red); }
-        .border-neutral { border-color: #4b5563; }
-
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        #vu-meter-bar { transition: width 0.1s ease-out; }
-
-        .ad-placeholder {
-            background-color: rgba(0,0,0,0.2);
-            border: 2px dashed var(--border-color);
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            border-radius: 8px;
-        }
-        
-        /* New Assistant Tabs */
-        .tab-button {
-            padding: 0.5rem 1rem;
-            border-radius: 999px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            background-color: transparent;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        @media (min-width: 640px) {
-            .tab-button {
-                 font-size: 1rem;
-            }
-        }
-        .tab-button.active {
-            color: var(--text-primary);
-            background-color: rgba(245, 158, 11, 0.1);
-            border-color: var(--accent-amber);
-        }
-        .tab-pane {
-            display: none;
-        }
-        .tab-pane.active {
-            display: block;
-        }
-        
-        .primary-btn {
-            background: linear-gradient(to right, #f59e0b, #f97316);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(249, 115, 22, 0.4);
-        }
-        .primary-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(249, 115, 22, 0.5);
-        }
-        .secondary-btn {
-             background-color: rgba(56, 189, 248, 0.1);
-             border: 1px solid rgba(56, 189, 248, 0.4);
-             color: #7dd3fc;
-             transition: all 0.3s ease;
-        }
-        .secondary-btn:hover {
-            background-color: rgba(56, 189, 248, 0.2);
-            border-color: rgba(56, 189, 248, 0.6);
-        }
-        .select-input {
-            background-color: rgba(15, 23, 42, 0.7);
-            border: 1px solid var(--border-color);
-        }
-
-        /* Metronome Styles */
-        .metronome-indicator {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #334155; /* slate-700 */
-            transition: all 0.1s ease-in-out;
-        }
-        .metronome-indicator.beat {
-            transform: scale(1.2);
-            background-color: var(--accent-amber);
-            box-shadow: 0 0 10px var(--accent-amber);
-        }
-         .metronome-indicator.accent {
-            background-color: #60a5fa; /* blue-400 */
-            box-shadow: 0 0 10px #60a5fa;
-        }
-        #metronome-panel-main .metronome-indicator {
-             width: 40px;
-             height: 40px;
-             margin: 0 auto 1rem;
-        }
-
-
-        /* Fretboard Styles */
-        #fretboard-wrapper { background-color: #374151; padding: 10px 20px 20px 20px; border-radius: 8px; overflow-x: auto; }
-        #fretboard { position: relative; background-color: #1f2937; border-radius: 5px; height: 150px; width: 100%; }
-        .string { position: absolute; width: 100%; height: 2px; background-color: #9ca3af; }
-        .fret { position: absolute; height: 100%; width: 4px; background-color: #6b7280; }
-        .fret-marker { position: absolute; width: 10px; height: 10px; background-color: #586170; border-radius: 50%; transform: translateX(-50%); }
-        #fret-numbers { display: flex; width: 100%; }
-        #fret-numbers span { flex: 1; text-align: center; font-size: 0.75rem; }
-        .finger-dot { position: absolute; width: 20px; height: 20px; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); color: black; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
-        .dot-root { background-color: var(--accent-amber); }
-        .dot-pos1 { background-color: #3b82f6; } .dot-pos2 { background-color: #22c55e; } .dot-pos3 { background-color: #a855f7; } .dot-pos4 { background-color: #f97316; }
-        .chord-diagram-wrapper { display: inline-flex; flex-direction: column; align-items: center; background-color: #374151; padding: 0.75rem; border-radius: 8px; }
-        #chord-diagrams-container { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: flex-start; }
-        .chord-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 0.5rem; }
-        #fretboard-container.mirrored #fretboard { transform: scaleX(-1); }
-        #fretboard-container.mirrored .finger-dot { transform: translate(-50%, -50%) scaleX(-1); }
-        #fretboard-container.mirrored #fret-numbers { flex-direction: row-reverse; }
-        #rotate-prompt { display: none; }
-        @media (max-width: 768px) and (orientation: portrait) { #fretboard-wrapper { display: none; } #rotate-prompt { display: block; } }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="min-h-screen">
 
@@ -238,7 +38,7 @@
                 </button>
 
                 <div id="vu-meter-container" class="w-full max-w-xs mx-auto mt-6 h-2 bg-slate-700 rounded-full overflow-hidden hidden">
-                    <div id="vu-meter-bar" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500" style="width: 0%;"></div>
+                    <div id="vu-meter-bar" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500"></div>
                 </div>
 
                 <div class="mt-8">
@@ -260,59 +60,43 @@
                      <div class="metronome-indicator"></div>
                      <div class="flex flex-col gap-4">
                          <div class="text-center">
-                             <span class="bpm-display text-2xl font-bold">120 BPM</span>
-                             <input type="range" class="bpm-slider w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer mt-2" min="40" max="220" value="120">
+                             <span id="bpm-display-main" class="bpm-display text-2xl font-bold">120 BPM</span>
+                             <input type="range" id="bpm-slider-main" class="bpm-slider w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer mt-2" min="40" max="220" value="120" aria-label="Ajustar BPM do metrônomo">
                          </div>
-                         <select class="time-signature-select select-input p-2 rounded-lg w-full">
+                         <select id="time-signature-select-main" class="time-signature-select select-input p-2 rounded-lg w-full" aria-label="Selecionar compasso do metrônomo">
                              <option value="4">4/4</option>
                              <option value="3">3/4</option>
                              <option value="2">2/4</option>
                              <option value="6">6/8</option>
+                         </select>
+                         <select id="backing-track-select-main" class="backing-track-select select-input p-2 rounded-lg w-full" aria-label="Selecionar backing track">
+                            <option value="none">Sem Backing Track</option>
+                            <option value="rock">Rock Básico</option>
+                            <option value="pop">Pop Simples</option>
                          </select>
                          <button class="start-metronome-btn primary-btn text-white font-bold py-2 px-4 rounded-lg">Iniciar</button>
                      </div>
                 </div>
                  <div class="glass-panel p-4 sm:p-6 md:p-8">
                      <h2 class="text-2xl font-bold mb-4 flex items-center gap-3 text-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400"><path d="M9.5 2.147a2.5 2.5 0 0 1 5 0l.646 1.83a1 1 0 0 0 .949.69h1.928a2.5 2.5 0 0 1 1.638 4.29l-1.42 1.42a1 1 0 0 0 0 1.414l1.42 1.42a2.5 2.5 0 0 1-1.638 4.29h-1.928a1 1 0 0 0-.95.69l-.646 1.83a2.5 2.5 0 0 1-5 0l-.646-1.83a1 1 0 0 0-.95-.69H4.21a2.5 2.5 0 0 1-1.638-4.29l1.42-1.42a1 1 0 0 0 0-1.414L2.572 7.957a2.5 2.5 0 0 1 1.638-4.29h1.928a1 1 0 0 0 .95-.69L9.5 2.147Z"></path></svg>
-                        Assistente Criativo
+                        <!-- Ícone de Biblioteca (Lucide Icons) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400">
+                            <path d="m16 6 4 14"/>
+                            <path d="M12 6v14"/>
+                            <path d="M8 8v12"/>
+                            <path d="M4 4v16"/>
+                        </svg>
+                        Ferramentas de Prática
                     </h2>
-                     <div id="tabs-container" class="flex justify-center items-center gap-1 sm:gap-2 p-1 bg-slate-800/50 rounded-full mb-6">
-                         <button class="tab-button active" data-tab="progression-tab">Progressão</button>
-                         <button class="tab-button" data-tab="scales-tab">Escalas</button>
-                         <button class="tab-button" data-tab="tip-tab">Dica Rápida</button>
-                     </div>
                      
-                     <div id="tab-content">
-                        <!-- Tab: Gerador de Progressão -->
-                        <div id="progression-tab" class="tab-pane active">
-                            <p class="text-sm text-slate-400 mb-4 text-center">Crie sequências de acordes por tom e sentimento.</p>
-                            <div class="flex flex-col md:flex-row gap-4">
-                                <select id="chord-key" class="select-input p-2 rounded-lg w-full"><option>C</option><option>G</option><option>D</option><option>A</option><option>E</option><option>F</option><option>Am</option><option>Em</option><option>Dm</option></select>
-                                <select id="chord-mood" class="select-input p-2 rounded-lg w-full"><option>Feliz</option><option>Triste</option><option>Épico</option><option>Relaxante</option><option>Jazzy</option></select>
-                                <button id="generate-progression" class="primary-btn text-white font-bold py-2 px-4 rounded-lg">Gerar</button>
-                            </div>
-                        </div>
-                        <!-- Tab: Visualizador de Escalas -->
-                        <div id="scales-tab" class="tab-pane">
-                            <p class="text-sm text-slate-400 mb-4 text-center">Explore escalas musicais no braço do violão.</p>
-                            <div class="flex flex-col md:flex-row gap-4">
-                                <select id="scale-key" class="select-input p-2 rounded-lg w-full"><option value="0">C</option><option value="1">C#</option><option value="2">D</option><option value="3">D#</option><option value="4">E</option><option value="5">F</option><option value="6">F#</option><option value="7">G</option><option value="8">G#</option><option value="9">A</option><option value="10">A#</option><option value="11">B</option></select>
-                                <select id="scale-type" class="select-input p-2 rounded-lg w-full"><option value="major">Maior</option><option value="minor">Menor</option><option value="majorPentatonic">Pentatônica Maior</option><option value="minorPentatonic">Pentatônica Menor</option><option value="blues">Blues</option></select>
-                                <button id="visualize-scale" class="primary-btn text-white font-bold py-2 px-4 rounded-lg">Visualizar</button>
-                            </div>
-                        </div>
-                        <!-- Tab: Dica Rápida -->
-                        <div id="tip-tab" class="tab-pane">
-                            <p class="text-sm text-slate-400 mb-4 text-center">Receba um conselho rápido para evoluir na guitarra.</p>
-                            <button id="quick-tip" class="primary-btn w-full text-white font-bold py-2 px-4 rounded-lg">Me Dê uma Dica</button>
+                     <div id="assistant-content" class="space-y-6">
+                        <!-- Ferramenta de Escalas -->
+                        <div id="scales-tab" class="text-center">
+                            <p class="text-sm text-slate-400 mb-4">Entre na Sala de Estudo para visualizar escalas, gerar acordes e praticar com a bateria.</p>
+                            <button id="visualize-scale" class="primary-btn text-white font-bold py-3 px-6 rounded-lg w-full">Entrar na Sala de Estudo</button>
                         </div>
                      </div>
 
-                     <div id="gemini-result-container" class="mt-6 hidden">
-                         <div id="loader" class="loader mx-auto my-4 hidden"></div>
-                         <div id="gemini-result" class="bg-slate-900/50 p-4 rounded-lg text-center"></div>
-                     </div>
                  </div>
             </aside>
         </div>
@@ -326,43 +110,70 @@
     <div id="scale-visualizer-view" class="hidden fixed inset-0 bg-gray-900 z-50 p-4 flex flex-col items-center justify-center">
         <div class="w-full max-w-7xl mx-auto text-center h-full flex flex-col">
             <div class="flex items-center justify-between mb-4 flex-shrink-0">
-                <h2 class="text-2xl font-bold">Sala de Estudo de Escalas</h2>
+                <h2 class="text-2xl font-bold">Sala de Estudo</h2>
                 <button id="back-to-tuner-btn" class="secondary-btn text-white font-bold py-2 px-4 rounded-lg">Voltar</button>
             </div>
             
-            <div class="w-full flex-grow flex flex-col">
-                 <div id="fretboard-container" class="w-full flex-grow"><div id="fretboard-wrapper" class="w-full h-full"><div id="fret-numbers"></div><div id="fretboard"></div></div><div id="rotate-prompt" class="text-center p-4 bg-slate-700 rounded-lg mt-4 h-full flex items-center justify-center"><p>Gire seu dispositivo para a horizontal para visualizar o braço.</p></div></div>
+            <div id="fretboard-container" class="w-full flex-grow flex flex-col space-y-4 md:space-y-0">
+                <!-- Wrapper principal que controla a visualização -->
+                <div id="fretboard-wrapper-1" class="fretboard-wrapper w-full">
+                    <div id="fret-numbers-1" class="fret-numbers"></div>
+                    <div id="fretboard-1" class="fretboard"></div>
+                </div>
+                <!-- Esta segunda parte só será visível em telas pequenas -->
+                <div id="fretboard-wrapper-2" class="fretboard-wrapper w-full">
+                    <div id="fret-numbers-2" class="fret-numbers"></div>
+                    <div id="fretboard-2" class="fretboard"></div>
+                </div>
             </div>
             
+            <!-- Área para exibir os diagramas de acordes gerados -->
+            <div id="chord-progression-display-area" class="mt-4 p-4 rounded-xl glass-panel hidden">
+                <div id="chord-diagrams-output" class="text-center"></div>
+            </div>
+
             <div id="practice-controls-panel" class="glass-panel p-4 rounded-xl mt-4 flex-shrink-0">
-                <div class="flex flex-col md:flex-row gap-6 items-start">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Left Side: Scale & Display Controls -->
-                    <div class="w-full md:w-1/2">
+                    <div class="w-full">
                          <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Configuração da Escala</h3>
                          <div class="flex items-center gap-2">
-                            <select id="scale-key-visualizer" class="select-input p-2 rounded w-full"><option value="0">C</option><option value="1">C#</option><option value="2">D</option><option value="3">D#</option><option value="4">E</option><option value="5">F</option><option value="6">F#</option><option value="7">G</option><option value="8">G#</option><option value="9">A</option><option value="10">A#</option><option value="11">B</option></select>
-                            <select id="scale-type-visualizer" class="select-input p-2 rounded w-full"><option value="major">Maior</option><option value="minor">Menor</option><option value="majorPentatonic">Pentatônica Maior</option><option value="minorPentatonic">Pentatônica Menor</option><option value="blues">Blues</option></select>
+                            <select id="scale-key-visualizer" class="select-input p-2 rounded w-full" aria-label="Selecionar tom da escala no visualizador"><option value="0">C</option><option value="1">C#</option><option value="2">D</option><option value="3">D#</option><option value="4">E</option><option value="5">F</option><option value="6">F#</option><option value="7">G</option><option value="8">G#</option><option value="9">A</option><option value="10">A#</option><option value="11">B</option></select>
+                            <select id="scale-type-visualizer" class="select-input p-2 rounded w-full" aria-label="Selecionar tipo de escala no visualizador"><option value="major">Maior</option><option value="minor">Menor</option><option value="majorPentatonic">Pentatônica Maior</option><option value="minorPentatonic">Pentatônica Menor</option><option value="blues">Blues</option></select>
                             <button id="mirror-fretboard" class="secondary-btn p-2 rounded flex-shrink-0" title="Espelhar Braço">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M12 9V2"/><path d="M4 12H2"/><path d="M8 12H6"/><path d="M18 12h-2"/><path d="M22 12h-2"/><path d="m16 9-3-3-3 3"/><path d="m8 15 3 3 3-3"/></svg>
+                                <!-- Ícone de Inversão Horizontal (Lucide Icons) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3"/>
+                                    <path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/>
+                                    <path d="M12 21V3"/>
+                                </svg>
                             </button>
                          </div>
                     </div>
 
-                    <!-- Right Side: Metronome & Practice Controls -->
-                    <div class="w-full md:w-1/2 md:border-l md:border-slate-700 md:pl-6">
+                    <!-- Center: Chord Progression Generator -->
+                    <div class="w-full md:border-l md:border-r md:border-slate-700 md:px-6">
+                        <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Gerador de Acordes</h3>
+                        <p class="text-sm text-slate-400 mb-2 text-center md:text-left">Cria uma progressão musical para praticar.</p>
+                        <button id="generate-progression" class="primary-btn text-white font-bold py-2 px-4 rounded-lg w-full">Gerar Progressão</button>
+                    </div>
+
+                    <!-- Right Side: Metronome Controls -->
+                    <div class="w-full">
                         <h3 class="text-lg font-bold mb-3 text-slate-300 text-center md:text-left">Metrônomo de Prática</h3>
                         <div class="flex flex-col gap-3">
                             <div class="flex items-center gap-4">
-                                <button class="start-metronome-btn primary-btn text-white font-bold py-2 px-4 rounded-lg">Tocar</button>
+                                <button class="start-metronome-btn primary-btn text-white font-bold py-2 px-4 rounded-lg flex-shrink-0">Tocar</button>
                                 <div class="metronome-indicator"></div>
                                 <div class="flex-grow text-center">
-                                    <span class="bpm-display font-bold">120 BPM</span>
+                                    <span id="bpm-display-practice" class="bpm-display font-bold">120 BPM</span>
                                 </div>
-                                <select class="time-signature-select select-input p-2 rounded-lg">
-                                    <option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option><option value="6">6/8</option>
-                                </select>
                             </div>
-                            <input type="range" class="bpm-slider w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" min="40" max="220" value="120">
+                            <input type="range" id="bpm-slider-practice" class="bpm-slider w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer" min="40" max="220" value="120" aria-label="Ajustar BPM do metrônomo de prática">
+                            <div class="flex items-center gap-2">
+                                <select id="time-signature-select-practice" class="time-signature-select select-input p-2 rounded-lg w-full" aria-label="Selecionar compasso do metrônomo de prática"><option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option><option value="6">6/8</option></select>
+                                <select id="backing-track-select-practice" class="backing-track-select select-input p-2 rounded-lg w-full" aria-label="Selecionar backing track de prática"><option value="none">Sem Backing Track</option><option value="rock">Rock Básico</option><option value="pop">Pop Simples</option></select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -383,242 +194,6 @@
         </div>
     </div>
 
-    <script>
-        // --- UI ELEMENTS ---
-        const startButton = document.getElementById('start-button');
-        const statusMessage = document.getElementById('status-message');
-        const noteNameEl = document.getElementById('note-name');
-        const frequencyEl = document.getElementById('frequency-display');
-        const tunerDisplay = document.getElementById('tuner-display');
-        const tunerPointer = document.getElementById('tuner-pointer');
-        const stringButtons = document.querySelectorAll('.string-button');
-        const vuMeterContainer = document.getElementById('vu-meter-container');
-        const vuMeterBar = document.getElementById('vu-meter-bar');
-        
-        // --- GEMINI & CREATIVE ASSISTANT ELEMENTS ---
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-        const generateProgressionBtn = document.getElementById('generate-progression');
-        const quickTipBtn = document.getElementById('quick-tip');
-        const geminiResultContainer = document.getElementById('gemini-result-container');
-        const geminiResultEl = document.getElementById('gemini-result');
-        const loader = document.getElementById('loader');
-        const chordKeySelect = document.getElementById('chord-key');
-        const chordMoodSelect = document.getElementById('chord-mood');
-        const visualizeScaleBtn = document.getElementById('visualize-scale');
-        const scaleKeySelect = document.getElementById('scale-key');
-        const scaleTypeSelect = document.getElementById('scale-type');
-
-        // --- METRONOME ELEMENTS (Both views) ---
-        const startMetronomeBtns = document.querySelectorAll('.start-metronome-btn');
-        const bpmSliders = document.querySelectorAll('.bpm-slider');
-        const bpmDisplays = document.querySelectorAll('.bpm-display');
-        const timeSignatureSelects = document.querySelectorAll('.time-signature-select');
-        const metronomeIndicators = document.querySelectorAll('.metronome-indicator');
-
-        // --- NEW FULLSCREEN VIEW ELEMENTS ---
-        const mainTunerVIew = document.getElementById('main-tuner-view');
-        const scaleVisualizerView = document.getElementById('scale-visualizer-view');
-        const backToTunerBtn = document.getElementById('back-to-tuner-btn');
-        const scaleKeyVisualizer = document.getElementById('scale-key-visualizer');
-        const scaleTypeVisualizer = document.getElementById('scale-type-visualizer');
-        const mirrorFretboardBtn = document.getElementById('mirror-fretboard');
-
-        // --- FRETBOARD ELEMENTS ---
-        const fretboardDisplay = document.getElementById('fretboard-display');
-        const fretboardContainer = document.getElementById('fretboard-container');
-        const fretboardEl = document.getElementById('fretboard');
-        const fretNumbersEl = document.getElementById('fret-numbers');
-
-        // --- AUDIO CONFIG & DATA ---
-        let audioContext; let analyser; let mediaStreamSource; let buffer;
-        let isTunerActive = false; let animationFrameId; let volumeDataArray;
-        let wakeLock = null;
-        const tuning = { 'E2': 82.41, 'A2': 110.00, 'D3': 146.83, 'G3': 196.00, 'B3': 246.94, 'E4': 329.63 };
-        const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-        const openStrings = [4, 9, 2, 7, 11, 4];
-        const scales = { major: { name: 'Maior', intervals: [0, 2, 4, 5, 7, 9, 11] }, minor: { name: 'Menor', intervals: [0, 2, 3, 5, 7, 8, 10] }, majorPentatonic: { name: 'Pentatônica Maior', intervals: [0, 2, 4, 7, 9] }, minorPentatonic: { name: 'Pentatônica Menor', intervals: [0, 3, 5, 7, 10] }, blues: { name: 'Blues', intervals: [0, 3, 5, 6, 7, 10] } };
-        
-        // --- METRONOME LOGIC ---
-        let isMetronomePlaying = false;
-        let bpm = 120;
-        let beatsPerMeasure = 4;
-        let currentBeatInMeasure = 0;
-        let metronomeTimerID;
-        let nextBeatTime = 0.0;
-        const scheduleAheadTime = 0.1; // seconds
-        const lookahead = 25.0; // ms
-
-        function metronomeScheduler() {
-            while (nextBeatTime < audioContext.currentTime + scheduleAheadTime) {
-                playMetronomeSound(nextBeatTime, currentBeatInMeasure === 0);
-                visualBeat(currentBeatInMeasure === 0);
-                const secondsPerBeat = 60.0 / bpm;
-                nextBeatTime += secondsPerBeat;
-                currentBeatInMeasure = (currentBeatInMeasure + 1) % beatsPerMeasure;
-            }
-        }
-
-        function playMetronomeSound(time, isAccent) {
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-
-            osc.frequency.setValueAtTime(isAccent ? 880.0 : 440.0, time);
-            gain.gain.setValueAtTime(1, time);
-            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
-            osc.start(time);
-            osc.stop(time + 0.05);
-        }
-        
-        function visualBeat(isAccent) {
-            metronomeIndicators.forEach(indicator => {
-                indicator.classList.add('beat');
-                if(isAccent) indicator.classList.add('accent');
-                setTimeout(() => indicator.classList.remove('beat', 'accent'), 100);
-            });
-        }
-
-        function startMetronome() {
-            if(isTunerActive) stopTuner();
-            if (!audioContext) setupAudioContext();
-            if (audioContext.state === 'suspended') audioContext.resume();
-            
-            isMetronomePlaying = true;
-            currentBeatInMeasure = 0;
-            nextBeatTime = audioContext.currentTime;
-            metronomeTimerID = setInterval(metronomeScheduler, lookahead);
-            startMetronomeBtns.forEach(btn => btn.textContent = 'Parar');
-        }
-
-        function stopMetronome() {
-            isMetronomePlaying = false;
-            clearInterval(metronomeTimerID);
-            startMetronomeBtns.forEach(btn => btn.textContent = 'Tocar');
-            document.querySelector('#metronome-panel-main .start-metronome-btn').textContent = 'Iniciar';
-        }
-
-        function toggleMetronome() {
-            if (isMetronomePlaying) {
-                stopMetronome();
-            } else {
-                startMetronome();
-            }
-        }
-
-        // --- FRETBOARD & SCALE LOGIC ---
-        const NUM_FRETS = 24; const NUM_STRINGS = 6;
-        const chordShapes = { 'C': { positions: [{ fret: 1, string: 2 }, { fret: 2, string: 4 }, { fret: 3, string: 5 }], muted: [6] }, 'G': { positions: [{ fret: 2, string: 5 }, { fret: 3, string: 6 }, { fret: 3, string: 1 }], muted: [] }, 'D': { positions: [{ fret: 2, string: 3 }, { fret: 2, string: 1 }, { fret: 3, string: 2 }], muted: [5, 6] }, 'A': { positions: [{ fret: 2, string: 4 }, { fret: 2, string: 3 }, { fret: 2, string: 2 }], muted: [6] }, 'E': { positions: [{ fret: 1, string: 3 }, { fret: 2, string: 5 }, { fret: 2, string: 4 }], muted: [] }, 'Am': { positions: [{ fret: 1, string: 2 }, { fret: 2, string: 4 }, { fret: 2, string: 3 }], muted: [6] }, 'Em': { positions: [{ fret: 2, string: 5 }, { fret: 2, string: 4 }], muted: [] }, 'Dm': { positions: [{ fret: 1, string: 1 }, { fret: 2, string: 3 }, { fret: 3, string: 2 }], muted: [5, 6] }, 'F': { positions: [{ fret: 3, string: 4 }, { fret: 2, string: 3 }, { fret: 1, string: 2 }, { fret: 1, string: 1 }], muted: [5, 6] } };
-        function drawFretboard() { fretboardEl.innerHTML = ''; fretNumbersEl.innerHTML = ''; for (let i = 0; i < NUM_STRINGS; i++) { const string = document.createElement('div'); string.className = 'string'; string.style.top = `${(i / (NUM_STRINGS - 1)) * 100}%`; string.style.transform = 'translateY(-1px)'; fretboardEl.appendChild(string); } for (let i = 1; i <= NUM_FRETS; i++) { const fret = document.createElement('div'); fret.className = 'fret'; fret.style.left = `${(i / NUM_FRETS) * 100}%`; fret.style.transform = 'translateX(-2px)'; fretboardEl.appendChild(fret); const num = document.createElement('span'); num.textContent = i; fretNumbersEl.appendChild(num); const markers = {3:['50%'], 5:['50%'], 7:['50%'], 9:['50%'], 12:['25%', '75%'], 15:['50%'], 17:['50%'], 19:['50%'], 21:['50%'], 24:['25%', '75%']}; if (markers[i]) { markers[i].forEach(top => { const marker = document.createElement('div'); marker.className = 'fret-marker'; marker.style.left = `${(i / NUM_FRETS) * 100 - (1 / (NUM_FRETS * 2)) * 100}%`; marker.style.top = top; marker.style.transform = 'translate(-50%, -50%)'; fretboardEl.appendChild(marker); }); } } }
-        function getScaleNotes(rootNoteIndex, scaleIntervals) { return scaleIntervals.map(interval => (rootNoteIndex + interval) % 12); }
-        function displayScaleOnFretboard(rootNoteIndex, scaleType) { drawFretboard(); const scaleIntervals = scales[scaleType].intervals; const scaleNoteIndices = getScaleNotes(rootNoteIndex, scaleIntervals); const rootIdx = scaleNoteIndices[0]; const fretSpacing = fretboardEl.offsetWidth / NUM_FRETS; const stringSpacing = fretboardEl.offsetHeight / (NUM_STRINGS - 1); for (let s = 0; s < NUM_STRINGS; s++) { for (let f = 1; f <= NUM_FRETS; f++) { const currentNoteIndex = (openStrings[s] + f) % 12; if (scaleNoteIndices.includes(currentNoteIndex)) { const dot = document.createElement('div'); dot.className = 'finger-dot'; dot.textContent = notes[currentNoteIndex]; if (currentNoteIndex === rootIdx) { dot.classList.add('dot-root'); } else { if (f <= 4) dot.classList.add('dot-pos1'); else if (f <= 7) dot.classList.add('dot-pos2'); else if (f <= 10) dot.classList.add('dot-pos3'); else if (f <= 12) dot.classList.add('dot-pos4'); } dot.style.top = `${s * stringSpacing}px`; dot.style.left = `${f * fretSpacing - (fretSpacing / 2)}px`; fretboardEl.appendChild(dot); } } } }
-        
-        // --- TUNER LOGIC ---
-        function setupAudioContext() { try { if(!audioContext) { window.AudioContext = window.AudioContext || window.webkitAudioContext; audioContext = new AudioContext(); } } catch (e) { alert('A API de Web Audio não é suportada neste navegador.'); } }
-        async function startTuner() { if(isMetronomePlaying) stopMetronome(); if (!audioContext) setupAudioContext(); if (audioContext.state === 'suspended') await audioContext.resume(); try { const stream = await navigator.mediaDevices.getUserMedia({ audio: true }); vuMeterContainer.classList.remove('hidden'); mediaStreamSource = audioContext.createMediaStreamSource(stream); analyser = audioContext.createAnalyser(); analyser.fftSize = 4096; buffer = new Float32Array(analyser.fftSize); volumeDataArray = new Uint8Array(analyser.frequencyBinCount); mediaStreamSource.connect(analyser); isTunerActive = true; startButton.textContent = 'Parar Afinador'; statusMessage.textContent = 'Afinador ativo. Toque uma corda.'; updatePitch(); await requestWakeLock(); } catch (err) { openPermissionModal(); statusMessage.textContent = 'Acesso ao microfone negado. Siga as instruções.'; } }
-        function stopTuner() { if (mediaStreamSource) { mediaStreamSource.mediaStream.getTracks().forEach(track => track.stop()); } cancelAnimationFrame(animationFrameId); isTunerActive = false; startButton.textContent = 'Iniciar Afinador'; statusMessage.textContent = 'Afinador parado. Clique para iniciar.'; vuMeterContainer.classList.add('hidden'); vuMeterBar.style.width = '0%'; resetUI(); releaseWakeLock(); }
-        function toggleTuner() { if (isTunerActive) stopTuner(); else startTuner(); }
-        function autoCorrelate(buf, sampleRate) { let SIZE = buf.length; let rms = 0; for (let i = 0; i < SIZE; i++) { let val = buf[i]; rms += val * val; } rms = Math.sqrt(rms / SIZE); if (rms < 0.0015) return { freq: -1, rms: rms }; let r1 = 0, r2 = SIZE - 1, thres = 0.2; for (let i = 0; i < SIZE / 2; i++) { if (Math.abs(buf[i]) < thres) { r1 = i; break; } } for (let i = 1; i < SIZE / 2; i++) { if (Math.abs(buf[SIZE - i]) < thres) { r2 = SIZE - i; break; } } buf = buf.slice(r1, r2); SIZE = buf.length; let c = new Array(SIZE).fill(0); for (let i = 0; i < SIZE; i++) { for (let j = 0; j < SIZE - i; j++) { c[i] = c[i] + buf[j] * buf[j + i]; } } let d = 0; while (c[d] > c[d + 1]) d++; let maxval = -1, maxpos = -1; for (let i = d; i < SIZE; i++) { if (c[i] > maxval) { maxval = c[i]; maxpos = i; } } const clarity = maxval / c[0]; if (clarity < 0.82) { return { freq: -1, rms: rms }; } let T0 = maxpos; let x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1]; let a = (x1 + x3 - 2 * x2) / 2; let b = (x3 - x1) / 2; if (a) T0 = T0 - b / (2 * a); return { freq: sampleRate / T0, rms: rms }; }
-        function findClosestNote(freq) { let minDiff = Infinity, closestNote = null; for (const note in tuning) { const diff = Math.abs(tuning[note] - freq); if (diff < minDiff) { minDiff = diff; closestNote = note; } } return closestNote; }
-        function getCents(frequency, targetFrequency) { return 1200 * Math.log2(frequency / targetFrequency); }
-        function updatePitch() { analyser.getFloatTimeDomainData(buffer); const { freq } = autoCorrelate(buffer, audioContext.sampleRate); analyser.getByteFrequencyData(volumeDataArray); let sum = volumeDataArray.reduce((a, b) => a + b, 0); let average = sum / volumeDataArray.length; vuMeterBar.style.width = `${Math.min(100, (average / 128) * 150)}%`; if (freq !== -1 && freq > 70 && freq < 450) { statusMessage.textContent = 'Afinador ativo. Toque uma corda.'; const closestNote = findClosestNote(freq); const targetFreq = tuning[closestNote]; const cents = getCents(freq, targetFreq); updateUI(closestNote.replace(/[0-9]/g, ''), freq, cents); } else { if (isTunerActive && average < 1 && statusMessage.textContent.indexOf('negado') === -1) { statusMessage.textContent = 'Afinador ativo. Toque uma corda.'; } resetUIAfterDelay(); } if (isTunerActive) animationFrameId = requestAnimationFrame(updatePitch); }
-        let resetTimer; function resetUIAfterDelay() { clearTimeout(resetTimer); resetTimer = setTimeout(resetUI, 500); }
-        function resetUI() { 
-            tunerPointer.style.transition = 'transform 1s ease-out, background-color 1s ease-out';
-            noteNameEl.textContent = '-'; 
-            noteNameEl.className = 'text-7xl sm:text-8xl font-bold text-slate-500'; 
-            frequencyEl.textContent = '0 Hz'; 
-            tunerDisplay.className = 'tuner-circle border-8 border-neutral mx-auto mb-6'; 
-            tunerPointer.style.transform = `rotate(0deg)`; 
-            tunerPointer.style.backgroundColor = '#f3f4f6'; 
-            tunerPointer.style.boxShadow = 'none'; 
-        }
-        function updateUI(note, freq, cents) { 
-            clearTimeout(resetTimer); 
-            tunerPointer.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.4s ease-out';
-            noteNameEl.textContent = note; 
-            frequencyEl.textContent = `${freq.toFixed(1)} Hz`; 
-            const rotation = (cents / 50) * 60; 
-            const clampedRotation = Math.max(-60, Math.min(60, rotation)); 
-            tunerPointer.style.transform = `rotate(${clampedRotation}deg)`; 
-            tunerDisplay.classList.remove('border-in-tune', 'border-out-of-tune', 'border-neutral'); 
-            noteNameEl.classList.remove('text-amber-400', 'text-red-500', 'text-slate-500'); 
-            if (Math.abs(cents) < 5) { 
-                tunerDisplay.classList.add('border-in-tune'); 
-                tunerPointer.style.backgroundColor = 'var(--accent-amber)'; 
-                tunerPointer.style.boxShadow = '0 0 15px var(--accent-amber)'; 
-                noteNameEl.className = 'text-7xl sm:text-8xl font-bold text-amber-400'; 
-            } else { 
-                tunerDisplay.classList.add('border-out-of-tune'); 
-                tunerPointer.style.backgroundColor = 'var(--accent-red)'; 
-                tunerPointer.style.boxShadow = '0 0 15px var(--accent-red)'; 
-                noteNameEl.className = 'text-7xl sm:text-8xl font-bold text-red-500'; 
-            } 
-        }
-        let oscillator; function playReferenceTone(freq) { if (!audioContext) setupAudioContext(); if (oscillator) oscillator.stop(); oscillator = audioContext.createOscillator(); const gainNode = audioContext.createGain(); oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(freq, audioContext.currentTime); gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 1); oscillator.connect(gainNode); gainNode.connect(audioContext.destination); oscillator.start(); oscillator.stop(audioContext.currentTime + 1); }
-
-        // --- SCREEN WAKE LOCK ---
-        const requestWakeLock = async () => { if ('wakeLock' in navigator && wakeLock === null) { try { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } catch (err) { /* Fail silently */ } } };
-        const releaseWakeLock = async () => { if (wakeLock !== null) { try { await wakeLock.release(); wakeLock = null; } catch (err) { /* Fail silently */ } } };
-        const handleVisibilityChange = () => { if (wakeLock === null && document.visibilityState === 'visible' && (isTunerActive || !mainTunerVIew.classList.contains('hidden'))) { requestWakeLock(); } };
-
-        // --- GEMINI API LOGIC (simplified) ---
-        async function callGeminiAPI(prompt) { geminiResultContainer.classList.remove('hidden'); geminiResultEl.classList.add('hidden'); loader.classList.remove('hidden'); const apiKey = ""; const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`; const payload = { contents: [{ parts: [{ text: prompt }] }] }; try { const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); const result = await response.json(); const text = result.candidates?.[0]?.content?.parts?.[0]?.text; if (text) return text; else throw new Error("Resposta inválida da API."); } catch (error) { return "Desculpe, não foi possível obter uma resposta."; } }
-        
-        // --- HANDLERS ---
-        function displayQuickTip(content) { loader.classList.add('hidden'); geminiResultEl.classList.remove('hidden'); geminiResultEl.innerText = content; }
-        function generateChordDiagramSVG(chordName) { const chordData = chordShapes[chordName.trim()]; if (!chordData) return ''; const SVG_WIDTH = 100, SVG_HEIGHT = 120, NUM_DIAGRAM_FRETS = 4, FRET_HEIGHT = 20, STRING_SPACING = 15; const START_X = (SVG_WIDTH - (NUM_STRINGS - 1) * STRING_SPACING) / 2, START_Y = 30; let svg = `<div class="chord-diagram-wrapper"><div class="chord-name">${chordName}</div><svg width="${SVG_WIDTH}" height="${SVG_HEIGHT}" xmlns="http://www.w3.org/2000/svg">`; svg += `<rect x="${START_X - 2}" y="${START_Y}" width="${(NUM_STRINGS - 1) * STRING_SPACING + 4}" height="4" fill="#fff"/>`; for (let i = 1; i <= NUM_DIAGRAM_FRETS; i++) { svg += `<line x1="${START_X}" y1="${START_Y + i * FRET_HEIGHT}" x2="${START_X + (NUM_STRINGS - 1) * STRING_SPACING}" y2="${START_Y + i * FRET_HEIGHT}" stroke="#9ca3af" stroke-width="1"/>`; } for (let i = 0; i < NUM_STRINGS; i++) { const x = START_X + i * STRING_SPACING; svg += `<line x1="${x}" y1="${START_Y}" x2="${x}" y2="${START_Y + NUM_DIAGRAM_FRETS * FRET_HEIGHT}" stroke="#d1d5db" stroke-width="${1 + i * 0.2}"/>`; const stringNum = NUM_STRINGS - i; if (chordData.muted.includes(stringNum)) { svg += `<text x="${x}" y="${START_Y - 5}" font-family="monospace" font-size="14" fill="#f3f4f6" text-anchor="middle">x</text>`; } else if (!chordData.positions.some(p => p.string === stringNum)) { svg += `<circle cx="${x}" cy="${START_Y - 8}" r="4" stroke="#f3f4f6" stroke-width="1" fill="none"/>`; } } chordData.positions.forEach(pos => { const x = START_X + (NUM_STRINGS - pos.string) * STRING_SPACING; const y = START_Y + pos.fret * FRET_HEIGHT - (FRET_HEIGHT / 2); svg += `<circle cx="${x}" cy="${y}" r="6" fill="#f3f4f6"/>`; }); svg += `</svg></div>`; return svg; }
-        function displayChordProgression(progression) { loader.classList.add('hidden'); geminiResultEl.classList.remove('hidden'); geminiResultEl.innerHTML = '<div id="chord-diagrams-container"></div>'; const diagramsContainer = document.getElementById('chord-diagrams-container'); const chords = progression.split('-').map(c => c.trim()).filter(c => c); let diagramsHTML = ''; chords.forEach(chordName => { diagramsHTML += generateChordDiagramSVG(chordName); }); diagramsContainer.innerHTML = diagramsHTML; }
-        async function handleGenerateProgression() { const key = chordKeySelect.value; const mood = chordMoodSelect.value; const prompt = `Gere uma progressão de 4 acordes de violão no tom de ${key} com um sentimento ${mood}. Retorne apenas os nomes dos acordes separados por hifens, por exemplo: C - G - Am - F. Não adicione nenhuma outra explicação.`; const result = await callGeminiAPI(prompt); displayChordProgression(result); }
-        async function handleQuickTip() { const prompt = "Me dê uma dica rápida, útil e concisa para um guitarrista iniciante ou intermediário. A dica deve ter no máximo duas frases."; const result = await callGeminiAPI(prompt); displayQuickTip(result); }
-        function drawCurrentScaleInVisualizer() { const key = parseInt(scaleKeyVisualizer.value); const type = scaleTypeVisualizer.value; requestAnimationFrame(() => { displayScaleOnFretboard(key, type); }); }
-        function handleVisualizeScale() { scaleKeyVisualizer.value = scaleKeySelect.value; scaleTypeVisualizer.value = scaleTypeSelect.value; drawCurrentScaleInVisualizer(); mainTunerVIew.classList.add('hidden'); scaleVisualizerView.classList.remove('hidden'); requestWakeLock(); setTimeout(drawCurrentScaleInVisualizer, 50); }
-        function openPermissionModal() { document.getElementById('permission-modal').classList.remove('hidden'); }
-        function closePermissionModal() { document.getElementById('permission-modal').classList.add('hidden'); }
-        
-        // --- EVENT LISTENERS ---
-        startButton.addEventListener('click', toggleTuner);
-        stringButtons.forEach(button => { button.addEventListener('click', () => playReferenceTone(parseFloat(button.dataset.freq))); });
-        generateProgressionBtn.addEventListener('click', handleGenerateProgression);
-        quickTipBtn.addEventListener('click', handleQuickTip);
-        visualizeScaleBtn.addEventListener('click', handleVisualizeScale);
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabPanes.forEach(pane => pane.classList.remove('active'));
-                button.classList.add('active');
-                document.getElementById(button.dataset.tab).classList.add('active');
-            });
-        });
-        backToTunerBtn.addEventListener('click', () => { 
-            if(isMetronomePlaying) stopMetronome();
-            scaleVisualizerView.classList.add('hidden'); 
-            mainTunerVIew.classList.remove('hidden'); 
-            if (!isTunerActive) releaseWakeLock();
-        });
-        scaleKeyVisualizer.addEventListener('change', drawCurrentScaleInVisualizer);
-        scaleTypeVisualizer.addEventListener('change', drawCurrentScaleInVisualizer);
-        mirrorFretboardBtn.addEventListener('click', () => { fretboardContainer.classList.toggle('mirrored'); drawCurrentScaleInVisualizer(); });
-        
-        // Metronome Listeners (sync both)
-        startMetronomeBtns.forEach(btn => btn.addEventListener('click', toggleMetronome));
-        
-        bpmSliders.forEach(slider => slider.addEventListener('input', (e) => {
-            bpm = parseInt(e.target.value);
-            bpmDisplays.forEach(d => d.textContent = `${bpm} BPM`);
-            bpmSliders.forEach(s => s.value = bpm);
-        }));
-
-        timeSignatureSelects.forEach(select => select.addEventListener('input', (e) => {
-            beatsPerMeasure = parseInt(e.target.value);
-            timeSignatureSelects.forEach(s => s.value = beatsPerMeasure);
-        }));
-
-        document.getElementById('close-modal-btn').addEventListener('click', closePermissionModal);
-        document.getElementById('retry-mic-btn').addEventListener('click', () => { closePermissionModal(); toggleTuner(); });
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    </script>
+    <script src="script.js" defer></script>
 </body>
 </html>
