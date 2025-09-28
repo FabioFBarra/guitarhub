@@ -102,6 +102,11 @@ body {
     border-radius: 8px;
 }
 
+/* Google AdSense block styling */
+.adsbygoogle {
+    display: block;
+}
+
 .primary-btn {
     background: linear-gradient(to right, #f59e0b, #f97316);
     transition: all 0.3s ease;
